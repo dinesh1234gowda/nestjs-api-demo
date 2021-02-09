@@ -21,12 +21,11 @@ export class UserService  {
 				message:responseCodeMapper('user.exist')
 			}
 		}
+		const newUser = new this.userModel({first_name:reqBody.fname,last_name:reqBody.lname,email:reqBody.email,password:reqBody.password});
+		await newUser.save();
 		return {
 			message:responseCodeMapper('user.created'),
 		}
-		// const newUser = await this.connection.collection('users').insert({first_name:reqBody.fname,last_name:reqBody.lname,email:reqBody.email,password:reqBody.password});
-		// console.log(newUser);
-		// return newUser;
 	}
 
 	async loginUser(reqBody:any){
@@ -36,7 +35,7 @@ export class UserService  {
 				message:responseCodeMapper('login.nouser')
 			}
 		}
-		const token = jwt.sign(isUser,config.jwtSecret,{ expiresIn: "1h"})
+		const token = jwt.sign(isUser.toJSON(),config.jwtSecret,{ expiresIn: "1h"})
 		return {
 			message:responseCodeMapper('login.success'),
 			token

@@ -1,15 +1,44 @@
 export default {
 	jwtSecret:'jw3455s@',
-	database1:{
+	databases:[{
 		name:'',
 		username:'',
 		password:'',
-		servers:[]
+		dbName:'mydb',
+		servers:[{
+			host:'localhost',
+			port:27017
+		}]
 	},
-	database2:{
+	{
 		name:'',
 		username:'',
 		password:'',
-		servers:[]
-	}
+		dbName:'mydb2',
+		servers:[{
+			host:'localhost',
+			port:27017
+		}]
+	}],
+	testDatabases:[{
+		name:'',
+		username:'',
+		password:'',
+		dbName:'testmydb',
+		servers:[{
+			host:'localhost',
+			port:27017
+		}]
+	},
+	{
+		name:'',
+		username:'',
+		password:'',
+		dbName:'testmydb2',
+		servers:[{
+			host:'localhost',
+			port:27017
+		}]
+	}],
+
 }

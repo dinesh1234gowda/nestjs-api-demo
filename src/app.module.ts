@@ -6,13 +6,25 @@ import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Authentication } from './middleware/auth.middleware'
+import { dataBaseProvider } from './lib/database'
+import config from './config'
+// function databaseProvider(db){
+// 	let dataBases = [];
+// 		dataBases.push(MongooseModule.forRoot('mongodb://localhost/mydb',{
+//   		connectionName:'mydb'
+//   	}))
+
+// 	dataBases.push(MongooseModule.forRoot('mongodb://localhost/mydb2',{
+//   	connectionName:'mydb2'
+//   }))
+
+// 	return dataBases;
+// }
+
+console.log(process.env.NODE_ENV)
 
 @Module({
-  imports: [UserModule,MongooseModule.forRoot('mongodb://localhost/mydb',{
-  	connectionName:'mydb'
-  }),MongooseModule.forRoot('mongodb://localhost/mydb2',{
-  	connectionName:'mydb2'
-  })],
+  imports: [UserModule,...dataBaseProvider(config.databases)],
   controllers: [AppController],
   providers: [AppService],
 })
