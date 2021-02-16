@@ -6,7 +6,9 @@ import { Test } from '@nestjs/testing';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user.module';
 import { userSchema } from './user.model';
-import { responseCodeMapper } from '../lib/responsecode_mapper' 
+import { responseCodeMapper } from '../../utils/responsecode_mapper' 
+import responseCodes from '../../response_codes'
+
 
 
 describe('UsersController',()=>{
@@ -19,8 +21,8 @@ describe('UsersController',()=>{
 			providers:[{
 				provide:UserService,
 				useValue:{
-					createUser:jest.fn().mockResolvedValue({message:responseCodeMapper('user.created')}),
-					loginUser:jest.fn().mockResolvedValue({message:responseCodeMapper('login.success')})				}
+					createUser:jest.fn().mockResolvedValue({message:responseCodeMapper(responseCodes,'user.created')}),
+					loginUser:jest.fn().mockResolvedValue({message:responseCodeMapper(responseCodes,'login.success')})				}
 			}]
 		}).compile();
 		service = moduleRef.get<UserService>(UserService);
@@ -28,7 +30,7 @@ describe('UsersController',()=>{
 	})
 	describe('unit test cases of User Service',()=>{
 		it('create a user',async()=>{
-			const result:any = {message:responseCodeMapper('user.created')};
+			const result:any = {message:responseCodeMapper(responseCodes,'user.created')};
 			let requestBody:any = {
 				body:{
 					fname:"testfname",
@@ -41,7 +43,7 @@ describe('UsersController',()=>{
 		})
 
 		it('user login',async()=>{
-			const result:any = {message:responseCodeMapper('login.success')};
+			const result:any = {message:responseCodeMapper(responseCodes,'login.success')};
 			let requestBody:any = {
 				body:{
 					email:"test@test.com",
@@ -57,7 +59,7 @@ describe('UsersController',()=>{
 					fname:'testfname'
 				}
 			}
-			expect(await controller.createUser(requestBody)).toEqual({message:responseCodeMapper('invalid.body')})
+			expect(await controller.createUser(requestBody)).toEqual({message:responseCodeMapper(responseCodes,'invalid.body')})
 		})
 
 		it('controller should be defined',()=>{

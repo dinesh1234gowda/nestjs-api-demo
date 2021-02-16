@@ -2,7 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { responseCodeMapper } from './../src/lib/responsecode_mapper' 
+import { responseCodeMapper } from './../src/lib/responsecode_mapper';
+import responseCodes from '../src/response_codes'
+
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -29,11 +31,11 @@ describe('AppController (e2e)', () => {
     .send({
       fname:"test",
       lname:"test2",
-      email:"d@gmail.com",
+      email:`d${Math.floor(Math.random()*100%100)}@gmail.com`,
       password:"dd"
     })
-    .expect(200)
-    .expect({message:responseCodeMapper('user.created')})
+    .expect(201)
+    .expect({message:responseCodeMapper(responseCodes,'user.created')})
   })
 
   it('/POST Invalid request body',()=>{
@@ -42,25 +44,34 @@ describe('AppController (e2e)', () => {
     .send({
       fname:"test"
     })
-    .expect(200)
-    .expect({message:responseCodeMapper('invalid.body')})
+    .expect(201)
+    .expect({message:responseCodeMapper(responseCodes,'invalid.body')})
   })
 
   it('/POST user login',()=>{
     return request(app.getHttpServer())
     .post('/userLogin')
     .send({
+      email:"d55@gmail.com",
+      password:"dd"
+    })
+    .expect(201)
+  })
+
+  it('/POST user login/No such user',()=>{
+    return request(app.getHttpServer())
+    .post('/userLogin')
+    .send({
       email:"test",
       password:"test123"
     })
-    .expect(200)
-    .expect({message:responseCodeMapper('login.success')})
+    .expect(201)
+    .expect({message:responseCodeMapper(responseCodes,'login.nouser')})
   })
 
   it('/ testing 404',()=>{
     return request(app.getHttpServer())
-    .post('/404')
-    .expect(400)
+    .get('/404')
+    .expect(404)
   })
-
 });

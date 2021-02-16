@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Req } from '@nestjs/common';
 import { UserService } from './user.service'
 import { Request } from 'express';
-import { responseCodeMapper } from '../lib/responsecode_mapper' 
+import { responseCodeMapper } from '../../utils/responsecode_mapper' 
+import responseCodes from '../../response_codes'
 
 @Controller()
 export class UserController {
@@ -14,7 +15,7 @@ export class UserController {
 		let reqBody = request.body 
 		if(!reqBody || !reqBody.email || !reqBody.fname || !reqBody.lname){
 			return {
-				message:responseCodeMapper('invalid.body')
+				message:responseCodeMapper(responseCodes,'invalid.body')
 			}
 		}
 		return this.UserService.createUser(request.body);
@@ -25,7 +26,7 @@ export class UserController {
 		console.log(request.body)
 		if(!request.body || !request.body.email || !request.body.password){
 			return {
-				message:responseCodeMapper('invalid.body')
+				message:responseCodeMapper(responseCodes,'invalid.body')
 			}
 		}
 		return this.UserService.loginUser(request.body);

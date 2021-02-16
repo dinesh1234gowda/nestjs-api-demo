@@ -1,12 +1,12 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
-import { UserModule } from './user/user.module';
+import { UserController } from './modules/user/user.controller';
+import { UserService } from './modules/user/user.service';
+import { UserModule } from './modules/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Authentication } from './middleware/auth.middleware'
-import { dataBaseProvider } from './lib/database'
+import { dataBaseProvider } from './db/database'
 import config from './config'
 // function databaseProvider(db){
 // 	let dataBases = [];

@@ -1,4 +1,4 @@
-import { connectionUrl } from './connection-url'
+import { connectionUrl } from '../utils/connection-url'
 import { MongooseModule } from '@nestjs/mongoose';
 
 export function dataBaseProvider(dbconfig){
